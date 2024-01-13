@@ -1,0 +1,20 @@
+
+
+
+
+
+
+
+
+
+
+@media(min-width: 768px){
+  main{
+    max-width: 720px;
+  }
+}
+@media (min-width: 1200px){
+main {
+    max-width: 1160px;
+}
+}
