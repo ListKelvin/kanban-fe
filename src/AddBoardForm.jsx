@@ -7,7 +7,7 @@ const generateId = () => {
   id++;
   return res;
 };
-export function AddBoardForm({ addBoard }) {
+export function AddBoardForm({ addBoard, setOpenCardModal }) {
   const [text, setText] = useState("");
 
   const handleChange = (e) => {
@@ -15,13 +15,14 @@ export function AddBoardForm({ addBoard }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (text.length) {
+    if (text.trim().length !== 0) {
       addBoard({
         id: generateId(),
-        text,
+        text: text.trim(),
         // listTasks: [],
       });
       setText("");
+      setOpenCardModal(false);
     } else {
       toast.info("Please Enter something!!!", {
         position: "top-right",

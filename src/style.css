@@ -23,6 +23,7 @@ html[data-theme="dark"] {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
   background-color: var(--clr-white);
@@ -30,6 +31,13 @@ html[data-theme="dark"] {
 }
 form {
   display: flex;
+}
+.kaban {
+  /* width: 100%; */
+  gap: 20px;
+  display: flex;
+  align-items: self-start;
+  padding: 1rem;
 }
 main {
   width: 100%;
@@ -96,11 +104,13 @@ main {
   text-align: left;
 }
 .remove-btn {
+  /* position: relative; */
   border-color: transparent;
   background-color: transparent;
   font-size: 30px;
   color: #e74c3c;
   cursor: pointer;
+  /* z-index: 4; */
 }
 textarea {
   color: var(--clr-text);
@@ -124,6 +134,7 @@ textarea {
   color: var(--clr-text);
 }
 .boards {
+  /* width: 100%; */
   display: grid;
   gap: 2rem;
   grid-template-columns: auto auto auto auto;

@@ -4,7 +4,15 @@ import { Task } from "./Task";
 import { useState } from "react";
 import Modal from "./Modal";
 
-function Board({ text, tasks, addTask, removeTask, boardId, removeBoard }) {
+function Board({
+  text,
+  tasks,
+  addTask,
+  removeTask,
+  boardId,
+  removeBoard,
+  setTasks,
+}) {
   const getSuitableArray = (arrayId) => {
     // Find the matching array within the states array
     const matchingState = tasks.filter((state) => state.boardId === arrayId);
@@ -13,6 +21,9 @@ function Board({ text, tasks, addTask, removeTask, boardId, removeBoard }) {
   };
   const [modalOpen, setModalOpen] = useState(false);
   const [openCardModal, setOpenCardModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [editTask, setEditTask] = useState("");
+  // const [editText, setEditText] = useState("");
 
   const getTaskByBoardId = getSuitableArray(boardId);
   const handleRemoveBoard = () => {
@@ -27,9 +38,39 @@ function Board({ text, tasks, addTask, removeTask, boardId, removeBoard }) {
       progress: undefined,
     });
   };
+  const handleEditTask = (task) => {
+    setOpenEditModal(true);
+    setEditTask(task);
+  };
+  const updateTodo = (e) => {
+    e.preventDefault();
 
+    const todo = getTaskByBoardId?.find((todo) => todo.id === editTask.id);
+    const updatedTodo = { ...todo, text: editTask.text };
+    setTasks(
+      tasks?.map((t) =>
+        t.id === todo.id && t.boardId === todo.boardId ? updatedTodo : t
+      )
+    );
+    setOpenEditModal(false);
+  };
+
+  const handleChange = (e) => {
+    setEditTask({ ...editTask, text: e.target.value });
+  };
   return (
     <div className="container">
+      {openEditModal && (
+        <Modal
+          setOpenModal={setOpenEditModal}
+          question={"You can edit this task"}
+        >
+          <form className="add-task-form" onSubmit={updateTodo}>
+            <input value={editTask.text} onChange={handleChange} type="text" />
+            <button type="submit">Submit</button>
+          </form>
+        </Modal>
+      )}
       {modalOpen && (
         <Modal
           setOpenModal={setModalOpen}
@@ -68,7 +109,12 @@ function Board({ text, tasks, addTask, removeTask, boardId, removeBoard }) {
       </div>
       <ul className="tasks">
         {getTaskByBoardId?.map((task) => (
-          <Task key={task.id} task={task} removeTask={removeTask} />
+          <Task
+            key={task.id}
+            task={task}
+            removeTask={removeTask}
+            handleEditTask={handleEditTask}
+          />
         ))}
       </ul>
 

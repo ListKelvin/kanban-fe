@@ -15,10 +15,10 @@ export function AddTaskForm({ addTask, boardId, setOpenCardModal }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (text.length) {
+    if (text.trim().length !== 0) {
       addTask({
         id: generateId(),
-        text,
+        text: text.trim(),
         boardId: boardId,
       });
       setText("");

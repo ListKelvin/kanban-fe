@@ -6,8 +6,11 @@ import { ToastContainer } from "react-toastify";
 import { DarkModeToggle } from "./LightDarkMode.js";
 import { AddBoardForm } from "./AddBoardForm.jsx";
 import Board from "./Board.jsx";
+import Modal from "./Modal.js";
 function App() {
   let isEmpty = true;
+  const [openCardModal, setOpenCardModal] = useState(false);
+
   const [tasks, setTasks] = useState(
     JSON.parse(localStorage.getItem("tasks")) || []
   );
@@ -31,6 +34,7 @@ function App() {
     window.localStorage.setItem("tasks", JSON.stringify(tasks));
     window.localStorage.setItem("boards", JSON.stringify(boards));
   }, [tasks, boards]);
+
   const addBoard = (task) => {
     setBoards((prev) => [...prev, task]);
   };
@@ -38,9 +42,11 @@ function App() {
     setBoards((boards) => boards.filter((t) => t.id !== id));
     setTasks((tasks) => tasks.filter((t) => t.boardId !== id));
   };
+
   const addTask = (task) => {
     setTasks((prev) => [...prev, task]);
   };
+
   const removeTask = (id) => {
     setTasks((tasks) => tasks.filter((t) => t.id !== id));
   };
@@ -52,10 +58,21 @@ function App() {
 
   return (
     <div className="App">
-      <main>
-        <h1 className="hero">KanBan Board</h1>
-        <DarkModeToggle />
-        <AddBoardForm addBoard={addBoard} />
+      {openCardModal && (
+        <Modal
+          setOpenModal={setOpenCardModal}
+          action={addTask}
+          question={"Please Enter Content of Board!!"}
+        >
+          <AddBoardForm
+            addBoard={addBoard}
+            setOpenCardModal={setOpenCardModal}
+          />
+        </Modal>
+      )}
+      <h1 className="hero">KanBan Board</h1>
+      <DarkModeToggle />
+      <div className="kaban">
         <ul className="boards">
           {boards.map((el, id) => (
             <Board
@@ -66,12 +83,28 @@ function App() {
               addTask={addTask}
               removeTask={removeTask}
               removeBoard={removeBoard}
+              setTasks={setTasks}
             />
           ))}
         </ul>
 
-        <Bg isEmpty={isEmpty} />
-      </main>
+        <div
+          style={{
+            textAlign: "left",
+            fontSize: "24px",
+            cursor: "pointer",
+            padding: "2rem",
+          }}
+          onClick={() => {
+            setOpenCardModal(true);
+          }}
+        >
+          <i className="fa-solid fa-plus"></i> Add Board
+        </div>
+      </div>
+
+      <Bg isEmpty={isEmpty} />
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

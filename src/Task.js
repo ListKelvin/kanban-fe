@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "./Modal";
 export function Task(props) {
-  const { task, removeTask } = props;
+  const { task, removeTask, handleEditTask } = props;
   const handleRemoveClick = () => {
     removeTask(task.id);
     toast.error("Remove Done! ", {
@@ -17,7 +17,6 @@ export function Task(props) {
     });
   };
   const [modalOpen, setModalOpen] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
 
   const handleClearClick = () => {
     removeTask(task.id);
@@ -32,23 +31,8 @@ export function Task(props) {
     });
   };
 
-  const handleEditTask = () => {
-    setOpenEditModal(true);
-  };
-  console.log(openEditModal);
   return (
     <li className="task">
-      {openEditModal && (
-        <Modal
-          setOpenModal={setOpenEditModal}
-          question={"Please Enter Content of Task!!"}
-        >
-          <form>
-            <input value={task.text} />
-            <button type="submit">Submit</button>
-          </form>
-        </Modal>
-      )}
       {modalOpen && (
         <Modal
           setOpenModal={setModalOpen}
@@ -56,22 +40,32 @@ export function Task(props) {
           question={"Are you sure want to delete this task?"}
         />
       )}
+      <div
+        onClick={() => handleEditTask(task)}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          cursor: "pointer",
+        }}
+      >
+        <div>
+          <div className="text">{task.text}</div>
+          <div>list of tags here</div>
+        </div>
 
-      <div>
-        <div className="text">{task.text}</div>
-        <div>list of tags here</div>
-      </div>
-
-      <div>
-        <button
-          aria-label="Remove Task"
-          className="remove-btn "
-          onClick={() => {
-            setModalOpen(true);
-          }}
-        >
-          <i className="fa-solid fa-trash-can"></i>
-        </button>
+        <div>
+          <button
+            aria-label="Remove Task"
+            className="remove-btn "
+            onClick={(e) => {
+              e.stopPropagation(); // prevent
+              setModalOpen(true);
+            }}
+          >
+            <i className="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
       </div>
     </li>
   );
