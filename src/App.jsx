@@ -1,12 +1,12 @@
-import "./App.css";
+import "./style/App.css";
 import React, { useState, useEffect } from "react";
-import "./style.css";
+import "./style/style.css";
 import { Bg } from "./Bg.js";
 import { ToastContainer } from "react-toastify";
 import { DarkModeToggle } from "./LightDarkMode.js";
-import { AddBoardForm } from "./AddBoardForm.jsx";
-import Board from "./Board.jsx";
-import Modal from "./Modal.js";
+import { AddBoardForm } from "./components/AddBoardForm.jsx";
+import Board from "./components/Board.jsx";
+import Modal from "./components/Modal.js";
 function App() {
   let isEmpty = true;
   const [openCardModal, setOpenCardModal] = useState(false);

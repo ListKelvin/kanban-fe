@@ -18,18 +18,18 @@ export function Task(props) {
   };
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleClearClick = () => {
-    removeTask(task.id);
-    toast.success("🦄 Done!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  // const handleClearClick = () => {
+  //   removeTask(task.id);
+  //   toast.success("🦄 Done!", {
+  //     position: "top-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //   });
+  // };
 
   return (
     <li className="task">
